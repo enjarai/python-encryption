@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from Crypto.Cipher import AES
-from tkinter import *
+from tkinter import Tk, Label, Entry, Button
 import struct
 import base64
 
@@ -38,16 +38,16 @@ class encryption():
     def encrypt(self):
         text = self.input1.get()
         key = self.input2.get()
-        cipher = AES.new(self.pad16(key), AES.MODE_ECB)
-        ciphertext = base64.b64encode(cipher.encrypt(self.pad16(text)))
+        cipher = AES.new(self.pad16(key).encode("utf8"), AES.MODE_ECB)
+        ciphertext = base64.b64encode(cipher.encrypt(self.pad16(text).encode("utf8")))
         self.input1.delete(0, last=10000)
         self.input1.insert(0, ciphertext)
 
     def decrypt(self):
         text = self.input1.get()
         key = self.input2.get()
-        cipher = AES.new(self.pad16(key), AES.MODE_ECB)
-        ciphertext = self.unpad16(cipher.decrypt(base64.b64decode(text)).decode("utf-8"))
+        cipher = AES.new(self.pad16(key).encode("utf8"), AES.MODE_ECB)
+        ciphertext = self.unpad16(cipher.decrypt(base64.b64decode(text)).decode("utf8"))
         self.input1.delete(0, last=10000)
         self.input1.insert(0, ciphertext)
 
